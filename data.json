@@ -1,0 +1,16 @@
+{
+    "latitude": 39.8283,
+    "longitude": -98.5795,
+    "lastUpdated": "2025-04-15T12:00:00Z",
+    "status": "Connected",
+    "treeLoss": 5000,
+    "treeGain": 3100,
+    "fireAlerts": 24,
+    "carbonEmissions": 12000,
+    "treeLossData": { "min": 300, "max": 700 },
+    "treeGainData": { "min": 100, "max": 400 },
+    "fireAlertData": { "min": 2, "max": 25 },
+    "carbonSequestration": 3000
+  }
+  
+  

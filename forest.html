@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forest Live Data</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f2f6f8;
+      color: #333;
+    }
+
+    header {
+      background-color: #1f3b2c;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .container {
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .back-link {
+      text-decoration: none;
+      color: #1f3b2c;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      display: inline-block;
+    }
+
+    .live-section, .chart-section, .description-section {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .chart-section h2 {
+      margin-bottom: 1rem;
+    }
+
+    .scroll-charts {
+      display: flex;
+      overflow-x: auto;
+      gap: 1rem;
+      padding-bottom: 1rem;
+    }
+
+    .chart-container {
+      flex: 0 0 400px;
+      background-color: #f9fafb;
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+
+    .chart-container canvas {
+      width: 100% !important;
+      height: 300px !important;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    .live-summary-section {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .summary-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+
+    .summary-card {
+      background-color: #f0f4f8;
+      border-radius: 8px;
+      padding: 1rem;
+      width: 48%;
+      margin-bottom: 1rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .summary-card h3 {
+      margin-top: 0;
+      font-size: 1.1rem;
+    }
+
+    .summary-card p {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #1f3b2c;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🌲 Forest Name</h1>
+    <p>Live Data and Insights</p>
+  </header>
+
+  <div class="container">
+    <a href="index.html" class="back-link">← Back to Dashboard</a>
+
+    <section class="live-section">
+      <h2>Live Data</h2>
+      <p><strong>Latitude:</strong> <span id="latitude">Loading...</span></p>
+      <p><strong>Longitude:</strong> <span id="longitude">Loading...</span></p>
+      <p><strong>Last Updated:</strong> <span id="lastUpdated">Loading...</span></p>
+      <p><strong>Status:</strong> <span style="color: green;" id="status">Loading...</span></p>
+    </section>
+
+    <section class="live-summary-section">
+      <h2>Live Summary</h2>
+      <div class="summary-grid">
+        <div class="summary-card">
+          <h3>Tree Loss</h3>
+          <p id="treeLossValue">Loading...</p>
+        </div>
+        <div class="summary-card">
+          <h3>Tree Gain</h3>
+          <p id="treeGainValue">Loading...</p>
+        </div>
+        <div class="summary-card">
+          <h3>Fire Alerts</h3>
+          <p id="fireAlertsValue">Loading...</p>
+        </div>
+        <div class="summary-card">
+          <h3>Carbon Emissions</h3>
+          <p id="carbonEmissionsValue">Loading...</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="chart-section">
+      <h2>Visualized Data (Yearly Overview)</h2>
+      
+      <!-- Tree Loss -->
+      <div style="margin-bottom: 2rem;">
+        <h3>Tree Loss (Monthly, by Year)</h3>
+        <div class="scroll-charts" id="treeLossContainer"></div>
+      </div>
+      
+      <!-- Tree Gain -->
+      <div style="margin-bottom: 2rem;">
+        <h3>Tree Gain (Monthly, by Year)</h3>
+        <div class="scroll-charts" id="treeGainContainer"></div>
+      </div>
+      
+      <!-- Fire Alerts -->
+      <div style="margin-bottom: 2rem;">
+        <h3>Fire Alerts (Monthly, by Year)</h3>
+        <div class="scroll-charts" id="fireAlertContainer"></div>
+      </div>
+      
+      <!-- Carbon Emissions Doughnut -->
+      <div style="max-width: 500px; margin: 0 auto;">
+        <h3>Carbon Emissions vs Sequestration</h3>
+        <canvas id="carbonChart"></canvas>
+      </div>
+    </section>
+      
+    <section class="description-section">
+      <h2>About This Forest</h2>
+      <p>This forest region is located in the heart of Region X and plays a vital role in biodiversity, water catchment, and climate regulation. Real-time satellite and environmental data are monitored here to support conservation and sustainable management efforts.</p>
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Simulate fetching live data from an API
+    fetch('https://jsonblob.com/api/jsonBlob/1362033250964529152')
+  // Replace with your actual API URL
+      .then(response => response.json())
+      .then(data => {
+        // Populate live data
+        document.getElementById('latitude').textContent = data.latitude;
+        document.getElementById('longitude').textContent = data.longitude;
+        document.getElementById('lastUpdated').textContent = new Date(data.lastUpdated).toLocaleString();
+        document.getElementById('status').textContent = data.status;
+
+        // Populate summary data
+        document.getElementById('treeLossValue').textContent = `${data.treeLoss} ha`;
+        document.getElementById('treeGainValue').textContent = `${data.treeGain} ha`;
+        document.getElementById('fireAlertsValue').textContent = `${data.fireAlerts} Alerts`;
+        document.getElementById('carbonEmissionsValue').textContent = `${data.carbonEmissions} Tons`;
+
+        // Populate charts
+        createYearlyCharts('treeLossContainer', 'bar', 'Tree Loss (ha)', 'rgba(220,38,38,0.6)', data.treeLossData.min, data.treeLossData.max);
+        createYearlyCharts('treeGainContainer', 'bar', 'Tree Gain (ha)', 'rgba(34,197,94,0.6)', data.treeGainData.min, data.treeGainData.max);
+        createYearlyCharts('fireAlertContainer', 'line', 'Fire Alerts', 'orange', data.fireAlertData.min, data.fireAlertData.max);
+
+        // Carbon Chart
+        new Chart(document.getElementById('carbonChart').getContext('2d'), {
+          type: 'doughnut',
+          data: {
+            labels: ['Emissions', 'Sequestration'],
+            datasets: [{
+              data: [data.carbonEmissions, data.carbonSequestration],
+              backgroundColor: ['#ef4444', '#22c55e']
+            }]
+          }
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+        alert('Failed to load data.');
+      });
+
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+    const createChartCanvas = (idPrefix, year) => {
+      const div = document.createElement('div');
+      div.className = 'chart-container';
+      div.innerHTML = `
+        <h4 style="text-align:center;">${year}</h4>
+        <canvas id="${idPrefix}-${year}"></canvas>
+      `;
+      return div;
+    };
+
+    const randomMonthlyData = (min, max) => months.map(() => Math.floor(Math.random() * (max - min + 1)) + min);
+
+    const createYearlyCharts = (containerId, chartType, datasetLabel, color, min, max, tension = 0.3) => {
+      const container = document.getElementById(containerId);
+      for (let year = 2010; year <= 2024; year++) {
+        const canvasWrapper = createChartCanvas(containerId, year);
+        container.appendChild(canvasWrapper);
+
+        const ctx = canvasWrapper.querySelector('canvas').getContext('2d');
+
+        new Chart(ctx, {
+          type: chartType,
+          data: {
+            labels: months,
+            datasets: [{
+              label: `${datasetLabel} ${year}`,
+              data: randomMonthlyData(min, max),
+              backgroundColor: chartType === 'line' ? color + '33' : color,
+              borderColor: color,
+              fill: chartType === 'line',
+              tension: tension
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false
+          }
+        });
+      }
+    };
+  </script>
+</body>
+</html>

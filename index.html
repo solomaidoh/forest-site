@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Forest IoT Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #eef3f7;
+    }
+
+    header {
+      background-color: #1f3b2c;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .forest-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .forest-card {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .forest-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .forest-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .forest-content {
+      padding: 1rem;
+    }
+
+    .forest-title {
+      font-size: 1.2rem;
+      margin: 0 0 0.5rem 0;
+    }
+
+    .forest-meta {
+      font-size: 0.9rem;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Forest Monitoring Dashboard</h1>
+    <p>Real-time satellite and environmental data from forests around the world</p>
+  </header>
+
+  <main class="forest-section" id="forest-container"></main>
+
+  <script>
+    const forests = [
+      { name: "Brazil", location: "Region 1", img: "images/img1.jpg" },
+      { name: "Chile", location: "Region 2", img: "images/img2.jpg" },
+      { name: "Forest 3", location: "Region 3", img: "images/img3.jpg" },
+      { name: "Forest 4", location: "Region 4", img: "images/img4.jpeg" },
+      { name: "Forest 5", location: "Region 5", img: "images/img5.webp" },
+      { name: "Forest 6", location: "Region 6", img: "images/img6.jpg" },
+      { name: "Forest 7", location: "Region 7", img: "images/img7.jpg" },
+      { name: "Forest 8", location: "Region 8", img: "images/img8.jpg" },
+      { name: "Forest 9", location: "Region 9", img: "images/img9.jpg" },
+      { name: "Forest 10", location: "Region 10", img: "images/img10.jpg" },
+      { name: "Forest 11", location: "Region 11", img: "images/img11.jpg" },
+      { name: "Forest 12", location: "Region 12", img: "images/img12.jpg" },
+      { name: "Forest 13", location: "Region 13", img: "images/img13.jpg" },
+      { name: "Forest 14", location: "Region 14", img: "images/img14.jpg" },
+      { name: "Forest 15", location: "Region 15", img: "images/img15.webp" },
+      { name: "Forest 16", location: "Region 16", img: "images/img16.webp" },
+      { name: "Forest 17", location: "Region 17", img: "images/img17.jpeg" },
+      { name: "Forest 18", location: "Region 18", img: "images/img18.jpeg" },
+      { name: "Forest 19", location: "Region 19", img: "images/img19.jpg" },
+      { name: "Forest 20", location: "Region 20", img: "images/img20.jpeg" },
+      { name: "Forest 21", location: "Region 21", img: "images/img21.jpg" },
+      { name: "Forest 22", location: "Region 22", img: "images/img22.jpg" },
+      { name: "Forest 23", location: "Region 23", img: "images/img23.jpg" },
+      { name: "Forest 24", location: "Region 24", img: "images/img24.webp" },
+      { name: "Forest 25", location: "Region 25", img: "images/img25.jpg" },
+      { name: "Forest 26", location: "Region 26", img: "images/img26.png" },
+      { name: "Forest 27", location: "Region 27", img: "images/img27.jpg" },
+      { name: "Forest 28", location: "Region 28", img: "images/img28.jpg" },
+      { name: "Forest 29", location: "Region 29", img: "images/img29.jpg" },
+      { name: "Forest 30", location: "Region 30", img: "images/img30.avif" }
+    ];
+
+    const container = document.getElementById("forest-container");
+
+    forests.forEach((forest) => {
+      const card = document.createElement("a");
+      card.className = "forest-card";
+      card.href = "forest.html";
+      card.innerHTML = `
+        <img src="${forest.img}" alt="${forest.name}" />
+        <div class="forest-content">
+          <h3 class="forest-title">${forest.name}</h3>
+          <p class="forest-meta">Location: ${forest.location}</p>
+          <p class="forest-meta">Live Data: <span style="color: green;">Connected</span></p>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  </script>
+</body>
+</html>
